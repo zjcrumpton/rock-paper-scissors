@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head> <title>Rock, Paper, Scissors</title> <meta charset="UTF-8"> </head>
+
+    <body>
+        <script>
+
+            function computerPlay() {
+                let comphand = ""
+                let randomNumber = (Math.floor(Math.random() * Math.floor(3)))
+                if (randomNumber == 2) {
+                    compHand = "Scissors"
+                    console.log(compHand)
+            }   else if (randomNumber == 1) {
+                    compHand = "Paper"
+                    console.log(compHand)
+            }   else if (randomNumber == 0) {
+                    compHand = "Rock"
+                    console.log(compHand)
+            }
+
+            }
+
+            console.log(computerPlay())
+           
+
+        </script>
+
+    </body>
+
+
+</html>
