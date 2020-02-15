@@ -14,34 +14,52 @@
             let randomNumber = (Math.floor(Math.random() * Math.floor(3)))
             if (randomNumber == 2) {
                 compHand = "Scissors"
-                console.log(compHand)
+                return (compHand)
         }   else if (randomNumber == 1) {
                 compHand = "Paper"
-                console.log(compHand)
+                return (compHand)
         }   else if (randomNumber == 0) {
                 compHand = "Rock"
-                console.log(compHand)
+                return (compHand)
         }
 
         }
 
         //This function prompts the player to make a non-case-sensitive selection between rock, paper, and scissors, then corrects the capitalization of the player's response, then stores it in a variable.
-        //If the player makes a selection that isn't some from of rock, paper, or scissors, it prompts the player to make a valid selection, and then stores that in a variable.
-        function playerSelection() {
-            let playChoice = prompt("Choose One: Rock - Paper - Scissors","")
+        //If the player makes a selection that isn't some form of rock, paper, or scissors, it prompts the player to make a valid selection, and then stores that in a variable.
+        function playerPlay() {
+            playChoice = prompt("Choose One: Rock - Paper - Scissors","")
                if (typeof playChoice == "string") {
                    playChoice = (playChoice.charAt(0).toUpperCase() + playChoice.slice(1).toLowerCase(1))
                }
             if (playChoice == "Rock" || playChoice == "Paper" || playChoice == "Scissors") {
-                console.log(playChoice) //change this line when we have more code for the game
+                return (playChoice)
             } else {
                 console.log("Please make a valid selection.")
+                return (playChoice)
             }
             
         }
-       
-       playerSelection()
+    
+        //This function plays one round of Rock, Paper, Scissors, and declares the winner
+        function roundOne(playerSelection, computerSelection) {
+            computerPlay()
+            playerPlay()
+            computerSelection = compHand
+            playerSelection = playChoice
 
+            if (playerSelection == "Rock" && computerSelection == "Rock" || playerSelection == "Scissors" && computerSelection == "Scissors" || playerSelection == "Paper" && computerSelection == "Paper") {
+                console.log("It's a draw!")
+            } else if (playerSelection == "Rock" && computerSelection == "Scissors" || playerSelection == "Paper" && computerSelection == "Rock" || playerSelection == "Scissors" && computerSelection == "Paper") {
+                console.log("You win! " + playerSelection + " beats " + computerSelection + ".")
+
+            } else if (computerSelection == "Rock" && playerSelection == "Scissors" || computerSelection == "Paper" && playerSelection == "Rock" || computerSelection == "Scissors" && playerSelection == "Paper") {
+                console.log("Oh no... You lost! " + computerSelection + " beats " + playerSelection + ".")
+            }
+
+        }
+
+        roundOne()
         
     </script>
 
