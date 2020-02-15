@@ -9,11 +9,11 @@
     <script>
 
         //Global variables used within a few functions
-        let winner = 0
-        let round = 1
-        let invalid = 0
-        let playScore = 0
-        let compScore = 0
+        let winner = 0 //Keeps track of who is winning
+        let round = 1 //Keeps track of the current round, starting from one
+        let invalid = 0 //Used to tell the game function if an invalid word has been entered in
+        let playScore = 0 //Keeps track of the player's score for comparison
+        let compScore = 0 //Keeps track of the computer's score for comparison
 
         // This function generates a random number corresponding to rock, paper, or scissors, then it stores that as a variable for the computer's choice of move.
         function computerPlay() {
