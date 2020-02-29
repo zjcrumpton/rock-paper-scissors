@@ -3,17 +3,32 @@
     <head> <title>Rock, Paper, Scissors</title> <meta charset="UTF-8"> </head>
 
     <body>
+        <div id = "roundDisplay">Round 1</div>
+        <p>Choose One: Rock - Paper - Scissors</p>
+        <div id="userIntBtns">
+            <button class = "btn" id = "rockBtn" value="Rock">Rock</button>
+            <button class = "btn" id = "paperBtn" value="Paper">Paper</button>
+            <button class = "btn" id = "scissorsBtn" value="Scissors">Scissors</button>
+        </div>
+        <br>
+        <div id = "results"></div>
+        <br>
+        <div id = "scoreBoard"></div>
+        <br>
+        <div id = "winner"></div>
+        <div id = "againBtn"></div>
+
 
     </body>
 
     <script>
-
         //Global variables used within a few functions
         let winner = 0 //Keeps track of who is winning
         let round = 1 //Keeps track of the current round, starting from one
         let invalid = 0 //Used to tell the game function if an invalid word has been entered in
         let playScore = 0 //Keeps track of the player's score for comparison
         let compScore = 0 //Keeps track of the computer's score for comparison
+        let playChoice = ""
 
         // This function generates a random number corresponding to rock, paper, or scissors, then it stores that as a variable for the computer's choice of move.
         function computerPlay() {
@@ -29,30 +44,55 @@
 
         }
 
-        //This function prompts the player to make a non-case-sensitive selection between rock, paper, and scissors, then corrects the capitalization of the player's response, then stores it in a variable.
-        //If the player makes a selection that isn't some form of rock, paper, or scissors, it prompts the player to make a valid selection, and then stores that in a variable.
+        //Let's the player choose rock, paper, or scissors, then executes the correct functions to play the game to five rounds
         function playerPlay() {
-            playChoice = prompt("Choose One: Rock - Paper - Scissors","")
-               if (typeof playChoice == "string") {
-                   playChoice = (playChoice.charAt(0).toUpperCase() + playChoice.slice(1).toLowerCase(1))
-               }
-            if (playChoice == "Rock" || playChoice == "Paper" || playChoice == "Scissors") {
-            } else {
-                alert("Please make a valid selection.")
-                invalid = 1
+            let rockBtn = document.querySelector("#rockBtn");
+            let paperBtn = document.querySelector("#paperBtn");
+            let scissorsBtn = document.querySelector("#scissorsBtn");
+            let results = document.querySelector("#results")
+            let scoreBoard = document.querySelector("#scoreBoard")
+            let roundContent = document.querySelector("#roundDisplay")
+            rockBtn.addEventListener("click", function () {
+                playChoice = rockBtn.value
+                computerPlay()
+                playRound(playChoice, compHand)
+                if (round >= 5) {
+                    endGame()
+                    return
             }
-            
-        }
-    
-        //This function plays one round of Rock, Paper, Scissors, declares the winner, and keeps score of who won the round
-        function playRound(playerSelection, computerSelection) {
-            computerPlay()
-            playerPlay()
-            computerSelection = compHand
-            playerSelection = playChoice
+                round++
+                roundContent.textContent = `Round ${round}`
+            })
 
+            paperBtn.addEventListener("click", function() {
+                playChoice = (paperBtn.value)
+                computerPlay()
+                playRound(playChoice, compHand)
+                if (round >= 5) {
+                    endGame()
+                    return
+            }
+                round++
+                roundContent.textContent = `Round ${round}`
+            })
+
+            scissorsBtn.addEventListener("click", function() {
+                playChoice = (scissorsBtn.value)
+                computerPlay()
+                playRound(playChoice, compHand)
+                if (round >= 5) {
+                    endGame()
+                    return
+            }
+                round++
+                roundContent.textContent = `Round ${round}`
+            })
+        }
+
+        //Keeps track of the score and updates the current winning player as the game goes on
+        function playRound(playerSelection, computerSelection) {
             if (playerSelection == "Rock" && computerSelection == "Rock" || playerSelection == "Scissors" && computerSelection == "Scissors" || playerSelection == "Paper" && computerSelection == "Paper") {
-                console.log("The round is a draw!")
+                results.textContent = "The round is a draw!"
                 if (playScore > compScore) {
                     winner = 1
                 } else if (playScore < compScore) {
@@ -60,9 +100,9 @@
                 } else if (playScore == compScore) {
                     winner = 0
                 }
-                console.log("Player: " + playScore + " | " + "Computer: " + compScore)
+                scoreBoard.textContent = `Player: ${playScore} | Computer: ${compScore}`
             } else if (playerSelection == "Rock" && computerSelection == "Scissors" || playerSelection == "Paper" && computerSelection == "Rock" || playerSelection == "Scissors" && computerSelection == "Paper") {
-                console.log("You won the round! " + playerSelection + " beats " + computerSelection + ".")
+                results.textContent = `You won the round! ${playerSelection} beats ${computerSelection}.`
                 playScore++
                 if (playScore > compScore) {
                     winner = 1
@@ -71,9 +111,9 @@
                 } else if (playScore == compScore) {
                     winner = 0
                 }
-                console.log("Player: " + playScore + " | " + "Computer: " + compScore)
+                scoreBoard.textContent = `Player: ${playScore} | Computer: ${compScore}`
             } else if (computerSelection == "Rock" && playerSelection == "Scissors" || computerSelection == "Paper" && playerSelection == "Rock" || computerSelection == "Scissors" && playerSelection == "Paper") {
-                console.log("Oh no... You lost the round! " + computerSelection + " beats " + playerSelection + ".")
+                results.textContent = `Oh no... You lost the round! ${computerSelection} beats ${playerSelection}.`
                 compScore++
                 if (playScore > compScore) {
                     winner = 1
@@ -83,35 +123,39 @@
                     winner = 0
                 } else if (invalid == 1) {
                 }
-                console.log("Player: " + playScore + " | " + "Computer: " + compScore)
+                scoreBoard.textContent = `Player: ${playScore} | Computer: ${compScore}`
             }
 
         }
 
-
-        
-
-        function playGame(playCount, compCount) {
-            for (let i = 0; i < 5; i++) {
-                console.log("Round " + round + "!")
-                round++
-                playRound()
-                if (round > 5 && winner == 0 && invalid !== 1) {
-                    console.log("The game is a draw! No winners here...")
-                } else if (round > 5 && winner == 1 && invalid !== 1) {
-                    console.log("You won the game!")
-                } else if (round > 5 && winner == 2 && invalid !== 1) {
-                    console.log("The computer won... You really let that happen?")
-                } else if (invalid == 1) {
-                    --i
-                    --round
-                    invalid = 0
+        //End of game conditions - hide the interactive buttons and prompts, display who won, and give the option to play again from the start
+            function endGame() {
+                round = 5
+                let choicePrompt = document.querySelector("p")
+                let winnerContent = document.querySelector("#winner")
+                choicePrompt.style.display = "none";
+                rockBtn.style.display = "none";
+                paperBtn.style.display = "none";
+                scissorsBtn.style.display = "none";
+                if (winner == 0) {
+                    winnerContent.textContent = "The game is a draw! No winners here..."
+                } else if (winner == 1) {
+                    winnerContent.textContent= "You won the game!"
+                } else if (winner == 2) {
+                    winnerContent.textContent = "The computer won... You really let that happen?"
                 }
+                
+                //Makes  a "Play Again" button appear that reloads the page
+                let playAgain = document.createElement("button")
+                let againBtn = document.querySelector("#againBtn")
+                playAgain.textContent = "Play Again!"
+                againBtn.appendChild(playAgain)
+                playAgain.addEventListener("click", function () {
+                    window.location.reload()
+                })
             }
 
-        }
-
-        playGame()
+            playerPlay()
     </script>
 
 
